@@ -35,7 +35,7 @@ dml = DML()
 #######################################################################################################################################################
 
 # Load Data
-os.chdir("C:\\Users\\Christopher\\Desktop\\APA")
+os.chdir("/home/jupyter/dataset/")
 data = pd.read_csv('insurance.csv', sep=",")
 
 # Map String to Numbers

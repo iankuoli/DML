@@ -30,7 +30,7 @@ dml = DML()
 
 # abdt:       chronological time of enrollment of each claimant in the Pennsylvania reemployment bonus experiment.
 # tg:         indicates the treatment group (bonus amount - qualification period) of each claimant.
-# inuidur1:   a measure of length (in weeks) of the first spell ofunemployment
+# inuidur1:   a measure of length (in weeks) of the first spell of unemployment
 # inuidur2:   a second measure for the length (in weeks) of
 # female:     dummy variable; it indicates if the claimant's sex is female (=1) or male (=0).
 # black:      dummy variable; it  indicates a person of black race (=1).
@@ -52,7 +52,7 @@ dml = DML()
 #######################################################################################################################################################
 
 # Load data
-os.chdir("C:\\Users\\Christopher\\Desktop\\APA")
+os.chdir("/home/jupyter/dataset/")
 data = pd.read_csv('penn_jae.csv', sep=";")
 
 # Define Variables
@@ -83,7 +83,9 @@ plt.show()
 ##
 # Compute the DML1 algorithm
 
+#
 # MLPRegressor as given Estimator
+# ----------------------------------------------------------------------------------------------------------------------
 givenEstimator = MLPRegressor().fit(data[remainingVariables], data.loc[:, predictorVariable])
 result = []
 for ii in range(no):

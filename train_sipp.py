@@ -42,7 +42,7 @@ dml = DML()
 # hown      = 1 if home owner
 #######################################################################################################################################################
 # load data
-os.chdir("C:\\Users\\Christopher\\Desktop\\APA")
+os.chdir("/home/jupyter/dataset/")
 data = pd.read_stata('sipp1991.dta')
 
 predictorVariable = "net_tfa"
