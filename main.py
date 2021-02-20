@@ -16,6 +16,7 @@ if not sys.warnoptions:
 no = 50  # number of simulations
 data_type = 'Insurance'  # [Insurance, Pennsylvania, SIPP1991]
 estimate_type = 'MLPRegressor'  # [Naive, MLPRegressor, DictionaryLearning, DecisionTreeRegressor, ExtraTreeClassifier]
+theta_opt = "Opt1"
 data, var_dict = load_data(data_type)
 dml = DML()
 
@@ -27,7 +28,7 @@ def model_estimation(estimator_type, dataset, random_state=6347):
                                                                     dataset.loc[:, var_dict['predictorVariable']])
 
 
-def theta_estimation(estimator, dataset, estimator_type):
+def theta_estimation(estimator, dataset, estimator_type, theta_type="Opt1"):
     thetas = []
     if estimator_type:
         for ii in range(no):
@@ -36,7 +37,7 @@ def theta_estimation(estimator, dataset, estimator_type):
                              given_estimator=estimator,
                              treatment_variable=var_dict['treatmentVariable'],
                              remaining_variables=var_dict['remainingVariables'],
-                             theta_opt="Opt1", num_folds=5)
+                             theta_opt=theta_type, num_folds=5)
             thetas.append(theta)
     else:
         for ii in range(no):
@@ -44,13 +45,14 @@ def theta_estimation(estimator, dataset, estimator_type):
                                                predictor_variable=var_dict['predictorVariable'],
                                                treatment_variable=var_dict['treatmentVariable'],
                                                remaining_variables=var_dict['remainingVariables'],
-                                               theta_opt="Opt1")
+                                               theta_opt=theta_type)
             thetas.append(theta)
     return thetas
 
 
-given_estimator = model_estimation(estimator_type=estimate_type, dataset=data)
-result = theta_estimation(estimator=given_estimator, dataset=data, estimator_type=estimate_type)
+given_estimator = model_estimation(dataset=data, estimator_type=estimate_type)
+result = theta_estimation(estimator=given_estimator, dataset=data,
+                          estimator_type=estimate_type, theta_type=theta_opt)
 
 # Compute some statistics
 print("{} ==> theta: {} \n "
@@ -59,5 +61,5 @@ print("{} ==> theta: {} \n "
 
 # Create the plot
 plt.hist(result, 50, facecolor='g', alpha=0.75)
-plt.title("{}, DML1 - {}".format(estimate_type, data_type))
+plt.title("{}, DML{} - {}".format(estimate_type, theta_opt[-1], data_type))
 plt.show()
